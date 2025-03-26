@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <a href="../index.html"> Back to Home Page</a>
+  <title>FormData Key/Value Viewer</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 5px 6px;
+    }
+
+    th {
+      background-color: lightgray;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Sample Form</h2>
+
+  <form id="sampleForm">
+    <label>
+      Name:
+      <input type="text" name="name" value="Daniel">
+    </label>
+
+    <label>
+      Email:
+      <input type="email" name="email" value="name@email.com">
+    </label>
+
+    <label>Payment Type:</label>
+    <label><input type="radio" name="payment" value="Cash" checked> Cash</label>
+    <label><input type="radio" name="payment" value="Credit Card"> Credit Card</label>
+    <label><input type="radio" name="payment" value="Google Pay"> Google Pay</label>
+    <label><input type="radio" name="payment" value="Apple Pay"> Apple Pay</label>
+
+    <label>
+      <input type="checkbox" name="signup" value="yes" checked>
+      Sign me up for special promotions
+    </label>
+
+    <label>
+      Preferred Location:
+      <select name="location">
+        <option>Los Angeles</option>
+        <option>Orange County</option>
+        <option>San Diego</option>
+      </select>
+    </label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <table id="formDataTable">
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </table>
+
+  <script>
+    document.getElementById("sampleForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const table = document.getElementById("formDataTable");
+
+      table.innerHTML = `
+        <tr>
+          <th>Key</th>
+          <th>Value</th>
+        </tr>`;
+
+      for (const [key, value] of formData.entries()) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+        table.appendChild(row);
+      }
+    });
+  </script>
+</body>
+</html>

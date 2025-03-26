@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <a href="../index.html"> Back to Home Page</a>
+  <title>Visited Countries</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+    }
+
+    input, button {
+      margin: 5px 0;
+      padding: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Visited Countries</h2>
+
+  <label for="name">Your Name:</label><br>
+  <input type="text" id="name" placeholder="Enter your name"><br><br>
+
+  <label for="countries">Countries (format: name,year):</label><br>
+  <textarea id="countries" rows="5" cols="30" placeholder="Example: Japan,2020\nFrance,2021\nUSA,2019"></textarea><br><br>
+
+  <button id="sendBtn">Send Data</button>
+
+  <script>
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const name = document.getElementById("name").value;
+      const countriesInput = document.getElementById("countries").value.trim().split("\n");
+
+      const countries = countriesInput.map(line => {
+        const [countryName, year] = line.split(",");
+        return {
+          name: countryName.trim(),
+          year: parseInt(year.trim())
+        };
+      });
+
+      const data = {
+        name: name,
+        countries: countries
+      };
+
+      fetch("https://thejsway-server.herokuapp.com/api/countries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(message => {
+        console.log(message);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>

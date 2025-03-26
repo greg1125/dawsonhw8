@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <a href="../index.html"> Back to Home Page</a>
+  <title>GitHub User Lookup</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 5px 6px;
+    }
+    th {
+      background-color: lightgray;
+    }
+    img {
+      width: 100px;
+      height: 100px;
+    }
+    #profile-pic {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Information about a GitHub user</h2>
+  <input type="text" id="username" placeholder="Enter GitHub username" />
+  <button id="lookupBtn">Lookup</button>
+  <p id="profile-pic"></p>
+  <table id="user-info">
+    <tr>
+      <th>Name</th>
+      <td id="name"></td>
+    </tr>
+    <tr>
+      <th>Blog</th>
+      <td id="blog"></td>
+    </tr>
+    <tr>
+      <th>Created</th>
+      <td id="created"></td>
+    </tr>
+  </table>
+  <script>
+    document.getElementById("lookupBtn").addEventListener("click", () => {
+      const username = document.getElementById("username").value;
+      const url = `https://api.github.com/users/${username}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("profile-pic").innerHTML =
+            `<img src="${data.avatar_url}" alt="Profile Picture">`;
+          document.getElementById("name").textContent = data.name;
+          document.getElementById("blog").textContent = data.blog;
+          document.getElementById("created").textContent = data.created_at;
+        })
+        .catch(error => {
+          console.error("Error fetching GitHub user data:", error);
+        });
+    });
+  </script>
+</body>
+</html>
